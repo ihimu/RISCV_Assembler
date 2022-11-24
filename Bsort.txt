@@ -1,0 +1,38 @@
+addi x1, x0, 0 //starting address of array in  data mem
+
+addi x5, x0, 3 
+sw x5, 0(x1)
+addi x5, x0, 5
+sw x5, 4(x1)
+addi x5, x0, 1
+sw x5, 8(x1)
+addi x5, x0, 2
+sw x5, 12(x1)
+addi x5, x0, 4
+sw x5, 16(x1) //Loaded array
+
+addi x2, x0, 4 //size-1
+addi x3, x0, 0 //i=0
+
+istart: beq x3, x2, iend //i<size check
+addi x4, x0, 0 //j=0
+jstart: beq x4, x2, jend //j size check
+slli x6, x4, 2 //to form 4j
+add x6, x1, x6 //to get effective array index
+lw x9, 0(x6) 
+lw x7, 4(x6) //load two elements
+blt x9, x7, skip //if x9<x7 then don't swap else swap
+sw x7, 0(x6)
+sw x9, 4(x6) //swapping
+skip: addi x4, x4, 1 //j=j+1
+beq x0, x0, jstart //jmp to jstart uncond
+jend: addi x3, x3, 1 //i=i+1
+beq x0, x0, istart //jmp to istart uncond
+iend: lw x20, 0(x1)
+lw x21, 4(x1)
+lw x22, 8(x1)
+lw x23, 12(x1)
+lw x24, 16(x1)
+
+
+hlt: beq x0, x0, hlt //halt
